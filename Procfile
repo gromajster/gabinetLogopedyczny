@@ -1,0 +1,1 @@
+web: gunicorn gabinetLaryngologii.wsgi --log-file -
