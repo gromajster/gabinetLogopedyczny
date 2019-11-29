@@ -17,6 +17,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
+    published_date = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
+
     class Meta:
         model = Post
-        fields = ['id', 'title', 'long_text', 'published_date', 'published']
+        fields = ['id', 'title', 'long_text', 'published_date', 'published_time', 'published']

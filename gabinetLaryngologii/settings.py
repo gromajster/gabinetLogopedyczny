@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,8 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'gabinetLaryngologii.blog',
-    'corsheaders'
+    'corsheaders',
+    'gabinetLaryngologii.material',
+    'storages',
 ]
+
+DEFAULT_FILE_STORAGE = 'gabinetLaryngologii.material.utils.dropbox.DropBoxFileStorageCustom'
+DROPBOX_OAUTH2_TOKEN = '9vC0Lf2weJAAAAAAAAAAXQODaH8cHUQyx_6liRV2LIFNWoFPvjPIiUHJMJqU0wyc'
+DROPBOX_ROOT_PATH = '/media/'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -111,11 +118,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+DATE_FORMAT = ['%d-%m-%Y']
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
@@ -126,13 +134,10 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
 
 if 'DATABASE_URL' in os.environ:
-    import dj_database_url
     DATABASES = {'default': dj_database_url.config()}

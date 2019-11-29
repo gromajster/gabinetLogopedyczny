@@ -16,13 +16,15 @@ Including another URLconf
 
 from django.urls import include, path
 from rest_framework import routers
-from gabinetLaryngologii.blog import views
+from gabinetLaryngologii.blog import views as viewsBlog
+from gabinetLaryngologii.material import views as viewsMaterial
 from django.contrib import admin
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'posts', views.PostViewSet)
+router.register(r'users', viewsBlog.UserViewSet)
+router.register(r'groups', viewsBlog.GroupViewSet)
+router.register(r'posts', viewsBlog.PostViewSet)
+router.register(r'media', viewsMaterial.MediaViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
