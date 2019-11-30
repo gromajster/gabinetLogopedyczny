@@ -6,5 +6,6 @@ class DropBoxFileStorageCustom(DropBoxStorage):
     def _full_path(self, name):
         if name == '/':
             name = ''
-        # TODO CHECK IF PATH STARTS WITH ANY LETTER AND : AD THEN REMOVE IT
-        return safe_join(self.root_path, name).replace('\\', '/')[2:]
+        if safe_join(self.root_path, name).replace('\\', '/')[0] != "/":
+            return safe_join(self.root_path, name).replace('\\', '/')[2:]
+        return safe_join(self.root_path, name).replace('\\', '/')
