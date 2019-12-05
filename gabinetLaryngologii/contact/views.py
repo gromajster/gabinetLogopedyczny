@@ -1,6 +1,7 @@
 from rest_framework import views
 from rest_framework.response import Response
 from django.core.mail import send_mail
+from rest_framework.views import exception_handler
 
 from gabinetLaryngologii import settings
 from .serializers import ContactSerializer
@@ -20,3 +21,6 @@ class ContactView(views.APIView):
                   f"{contact_form.get('message')}"
         send_mail('Wiadomość Gabinet Laryngologiczny', message, settings.EMAIL_HOST_USER, ['mkucko145@gmail.com'])
         return Response({"message": "Wiadomość została poprawnie wysłana."}, status=200)
+
+
+
