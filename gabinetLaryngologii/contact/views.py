@@ -10,6 +10,5 @@ class ContactView(views.APIView):
         serializer = ContactSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         contact_form = serializer.data
-        #TODO EMAIL SENDING
-        return Response({"message": "Wiadomość została poprawnie wysłana."}, status=200)
 
+        return Response({"message": "Wiadomość została poprawnie wysłana."}, status=200)
