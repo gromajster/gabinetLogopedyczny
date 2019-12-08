@@ -25,7 +25,7 @@ class ContactSerializer(serializers.Serializer):
             raise serializers.ValidationError({'message': 'Podaj poprawny adres E-mail.'})
         if not re.match(r"^[0-9]*$", data['phone_number']):
             raise serializers.ValidationError({'message': 'Numer telefonu powinien składać się z samych cyfr'})
-        if not len((data['phone_number']) == 9):
+        if not len((data['phone_number'])) == 9:
             raise serializers.ValidationError({'message': 'Numer telefony powinien skłądać się z 9 cyfr.'})
 
         return super().is_valid()
