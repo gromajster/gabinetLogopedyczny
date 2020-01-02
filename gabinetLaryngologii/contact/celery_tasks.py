@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from gabinetLaryngologii import settings
 
 
+
 @shared_task
 def send_email_task(contact_form):
     message = f"Imię: {contact_form.get('name')} \n" \
