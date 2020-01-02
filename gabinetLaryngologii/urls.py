@@ -19,6 +19,7 @@ from rest_framework import routers
 from gabinetLaryngologii.blog import views as viewsBlog
 from gabinetLaryngologii.material import views as viewsMaterial
 from gabinetLaryngologii.contact import views as viewsContact
+from gabinetLaryngologii.visit import views as viewsVisit
 from django.contrib import admin
 
 router = routers.DefaultRouter()
@@ -26,6 +27,7 @@ router.register(r'users', viewsBlog.UserViewSet)
 router.register(r'groups', viewsBlog.GroupViewSet)
 router.register(r'posts', viewsBlog.PostViewSet)
 router.register(r'media', viewsMaterial.MediaViewSet)
+router.register(r'visits', viewsVisit.AppointmentViewSet)
 
 
 # Wire up our API using automatic URL routing.

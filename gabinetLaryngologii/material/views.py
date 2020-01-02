@@ -10,5 +10,5 @@ from .models import Media
 class MediaViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-
+    http_method_names = ['get']
 

@@ -8,15 +8,18 @@ from gabinetLaryngologii.blog.serializers import UserSerializer, GroupSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    http_method_names = ['get']
 
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    http_method_names = ['get']
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    http_method_names = ['get']
 
 
