@@ -23,8 +23,8 @@ from gabinetLaryngologii.visit import views as viewsVisit
 from django.contrib import admin
 
 router = routers.DefaultRouter()
-router.register(r'users', viewsBlog.UserViewSet)
-router.register(r'groups', viewsBlog.GroupViewSet)
+# router.register(r'users', viewsBlog.UserViewSet)
+# router.register(r'groups', viewsBlog.GroupViewSet)
 router.register(r'posts', viewsBlog.PostViewSet)
 router.register(r'media', viewsMaterial.MediaViewSet)
 router.register(r'visits', viewsVisit.AppointmentViewSet)
