@@ -19,4 +19,4 @@ class Appointment(models.Model):
     surname = models.CharField(max_length=50)
     appointment_date = models.DateField()
     appointment_time = models.CharField(choices=TIME_CHOICES, max_length=5)
-    appointment_status = models.CharField(max_length=10, default='open')
+    appointment_status = models.CharField(max_length=15, default='open')
