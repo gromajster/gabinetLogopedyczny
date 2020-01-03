@@ -15,8 +15,8 @@ TIME_CHOICES = (
 
 class Appointment(models.Model):
     email = models.EmailField()
-    name = models.CharField(max_length=15)
-    surname = models.CharField(max_length=25)
+    name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
     appointment_date = models.DateField()
     appointment_time = models.CharField(choices=TIME_CHOICES, max_length=5)
     appointment_status = models.CharField(max_length=10, default='open')
