@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from rest_framework.views import exception_handler
 
-from gabinetLogopedyczny import settings
+from gabinetLaryngologii import settings
 from .serializers import ContactSerializer
 
 from .celery_tasks import send_email_task

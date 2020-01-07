@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 
-from gabinetLogopedyczny.blog.models import Post
-from gabinetLogopedyczny.blog.serializers import PostSerializer
+from gabinetLaryngologii.blog.models import Post
+from gabinetLaryngologii.blog.serializers import PostSerializer
 
 
 # class UserViewSet(viewsets.ModelViewSet):

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
 
-from gabinetLogopedyczny.visit.models import Appointment
+from gabinetLaryngologii.visit.models import Appointment
 
 
 class AppointmentForm(ModelForm):
