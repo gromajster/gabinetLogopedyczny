@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from gabinetLaryngologii.visit.models import Appointment
+from gabinetLogopedyczny.visit.models import Appointment
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appointment
-        fields = ['id', 'name', 'surname', 'email', 'appointment_date', 'appointment_time', 'appointment_status']
+        fields = ['id', 'day', 'month', 'year', 'appointment_time', 'appointment_status']

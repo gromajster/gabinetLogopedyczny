@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 TIME_CHOICES = (
@@ -20,3 +22,31 @@ class Appointment(models.Model):
     appointment_date = models.DateField()
     appointment_time = models.CharField(choices=TIME_CHOICES, max_length=5)
     appointment_status = models.CharField(max_length=255, default="open")
+
+    date = {}
+
+    def day(self):
+        date = {"day": self.appointment_date.day}
+        return date["day"]
+
+    def month(self):
+        months = {1: "Styczeń",
+                  2: "Luty",
+                  3: "Marzec",
+                  4: "Kwiecień",
+                  5: "Maj",
+                  6: "Czerwiec",
+                  7: "Lipiec",
+                  8: "Sierpień",
+                  9: "Wrzesień",
+                  10: "Październik",
+                  11: "Listopad",
+                  12: "Grudzień",
+                  }
+        month = months[self.appointment_date.month]
+        date = {"month": month}
+        return date["month"]
+
+    def year(self):
+        date = {"year": self.appointment_date.year}
+        return date["year"]

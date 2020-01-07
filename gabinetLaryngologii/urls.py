@@ -16,10 +16,10 @@ Including another URLconf
 
 from django.urls import include, path
 from rest_framework import routers
-from gabinetLaryngologii.blog import views as viewsBlog
-from gabinetLaryngologii.material import views as viewsMaterial
-from gabinetLaryngologii.contact import views as viewsContact
-from gabinetLaryngologii.visit import views as viewsVisit
+from gabinetLogopedyczny.blog import views as viewsBlog
+from gabinetLogopedyczny.material import views as viewsMaterial
+from gabinetLogopedyczny.contact import views as viewsContact
+from gabinetLogopedyczny.visit import views as viewsVisit
 from django.contrib import admin
 
 router = routers.DefaultRouter()

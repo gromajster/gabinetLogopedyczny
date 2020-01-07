@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from gabinetLaryngologii.visit.models import Appointment
-from gabinetLaryngologii.visit.serializers import AppointmentSerializer
+from gabinetLogopedyczny.visit.models import Appointment
+from gabinetLogopedyczny.visit.serializers import AppointmentSerializer
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):

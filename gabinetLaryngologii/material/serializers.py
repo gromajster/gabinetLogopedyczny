@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from gabinetLaryngologii.material.models import Media
+from gabinetLogopedyczny.material.models import Media
 
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):

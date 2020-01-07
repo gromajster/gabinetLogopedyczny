@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from gabinetLaryngologii.blog.models import Post
+from gabinetLogopedyczny.blog.models import Post
 
 
 # class UserSerializer(serializers.HyperlinkedModelSerializer):

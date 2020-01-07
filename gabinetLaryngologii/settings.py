@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pl-pl'
 
-DATE_FORMAT = ['%d-%m-%Y']
+DATE_FORMAT = ['d-m-Y']
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
 

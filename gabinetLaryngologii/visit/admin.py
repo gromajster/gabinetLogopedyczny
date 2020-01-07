@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
 
-from gabinetLaryngologii.visit.models import Appointment
+from gabinetLogopedyczny.visit.models import Appointment
 
 
 class AppointmentForm(ModelForm):
@@ -13,7 +13,8 @@ class AppointmentForm(ModelForm):
 
 class AppointmentAdmin(ModelAdmin):
     form = AppointmentForm
-    list_display = ('name', 'surname', 'email', 'appointment_date', 'appointment_time', 'appointment_status')
+    list_display = (
+        'name', 'surname', 'email', 'day', 'month', 'year', 'appointment_time', 'appointment_status')
     list_filter = ('appointment_status', 'appointment_time', 'appointment_date')
     search_fields = ('name', 'surname', 'email')
     date_hierarchy = 'appointment_date'
