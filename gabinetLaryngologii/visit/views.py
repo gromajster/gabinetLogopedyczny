@@ -9,7 +9,7 @@ from gabinetLaryngologii.visit.token_handler import token_generator, encrypt
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-    queryset = Appointment.objects.all().filter(appointment_status="open")
+    queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
     http_method_names = ['get', 'patch']
