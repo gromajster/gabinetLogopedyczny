@@ -17,7 +17,9 @@ def send_confirmation_email(email, subscription_confirmation_url):
     template = get_template("visit_confirmation/confirmation_mail.html")
     data["html_text"] = template.render(data)
     data["plain_text"] = strip_tags(data["html_text"])
-    email_message = EmailMessage(data["subject"], data["plain_text"], 'artur@scientificdev.net',
-                                 [data['email']])
-    email_message.send(fail_silently=False)
-    return True
+
+    send_mail(data["subject"], data["plain_text"],'gabinetLogopedzcynz@gmail.com', [data['email']])
+    # email_message = EmailMessage(data["subject"], data["plain_text"], 'artur@scientificdev.net',
+    #                              [data['email']])
+    # email_message.send(fail_silently=False)
+    return None
