@@ -17,7 +17,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         appointment = self.get_object()
-        if appointment != "open":
+        if appointment.appointment_status != "open":
             return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=200)
 
         appointment.appointment_status = "Waiting for confirmation"
