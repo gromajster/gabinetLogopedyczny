@@ -5,16 +5,15 @@ from rest_framework import serializers
 from gabinetLaryngologii.visit.models import Appointment
 
 
-class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
-        fields = ['id', 'day', 'month', 'year', 'appointment_time', 'appointment_status']
-
-
-class AppointmentSerializerUpdate(serializers.Serializer):
-    name = serializers.CharField(max_length=100)
-    surname = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
+        fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status', 'name', 'surname', 'email')
+        extra_kwargs = {
+            'name': {'write_only': True},
+            'surname': {'write_only': True},
+            'email': {'write_only': True}
+        }
 
     def is_valid(self, raise_exception=True):
         data = self.initial_data

@@ -13,5 +13,5 @@ def send_email_task(contact_form):
               f"Tel.: {contact_form.get('phone_number')} \n" \
               f"Treść wiadomości: \n" \
               f"{contact_form.get('message')}"
-    send_mail('Wiadomość Gabinet Laryngologiczny', message, settings.EMAIL_HOST_USER, ['mkucko145@gmail.com'])
+    send_mail('Wiadomość Gabinet Logopedyczny', message, settings.EMAIL_HOST_USER, ['mkucko145@gmail.com'])
     return None
