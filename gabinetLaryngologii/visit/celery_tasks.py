@@ -1,6 +1,5 @@
 from celery import shared_task
-from django.conf import settings
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.utils.html import strip_tags
 
@@ -18,7 +17,7 @@ def send_confirmation_email(email, subscription_confirmation_url):
     data["html_text"] = template.render(data)
     data["plain_text"] = strip_tags(data["html_text"])
 
-    send_mail(data["subject"], data["plain_text"],'gabinetLogopedzcynz@gmail.com', [data['email']])
+    send_mail(data["subject"], data["plain_text"], 'gabinetLogopedzcynz@gmail.com', [data['email']])
     # email_message = EmailMessage(data["subject"], data["plain_text"], 'artur@scientificdev.net',
     #                              [data['email']])
     # email_message.send(fail_silently=False)

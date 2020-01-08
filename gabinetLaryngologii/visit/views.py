@@ -23,6 +23,6 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         token = token_generator(str(person_data["email"]))
         subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
 
-        send_confirmation_email.delay(person_data["email"], subscription_confirmation_url)
+        send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
         self.update(request, *args, **kwargs)
         return Response({"message": "Został wysłany E-mail potwierdzający wizytę."}, status=200)
