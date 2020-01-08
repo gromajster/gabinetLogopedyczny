@@ -8,10 +8,10 @@ from gabinetLaryngologii import settings
 
 @shared_task
 def send_confirmation_email(email, subscription_confirmation_url):
-    # data = dict()
+    data = dict()
     # data["confirmation_url"] = subscription_confirmation_url
     # data["subject"] = "Please confirm the subscription"
-    # data["email"] = email
+    data["email"] = email
     # data["project_name"] = "Scientific Dev"
     # data["site_url"] = "https://www.scientificdev.net"
     # data["contact_us_url"] = "https://www.scientificdev.net/contact/"
@@ -24,5 +24,5 @@ def send_confirmation_email(email, subscription_confirmation_url):
     #                              [data['email']])
     # email_message.send(fail_silently=False)
     message = subscription_confirmation_url
-    send_mail('Wiadomość Gabinet Logopedyczny', message, settings.EMAIL_HOST_USER, [email])
+    send_mail('Wiadomość Gabinet Logopedyczny', message, settings.EMAIL_HOST_USER, [data['email']])
     return None
