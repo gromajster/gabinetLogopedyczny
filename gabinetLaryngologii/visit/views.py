@@ -12,13 +12,14 @@ from gabinetLaryngologii.visit.token_handler import token_generator, encrypt
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    pagination_class = None
     http_method_names = ['get', 'patch']
 
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         appointment = self.get_object()
         if appointment.appointment_status != "open":
-            return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=200)
+            return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=400)
 
         appointment.appointment_status = "Waiting for confirmation"
         appointment.save()

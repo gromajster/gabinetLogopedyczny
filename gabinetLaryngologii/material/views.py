@@ -10,5 +10,6 @@ from .models import Media
 class MediaViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
+    pagination_class = None
     http_method_names = ['get']
 
