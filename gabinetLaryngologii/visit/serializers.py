@@ -5,20 +5,11 @@ from rest_framework import serializers
 from gabinetLaryngologii.visit.models import Appointment
 
 
-class AppointmentSerializer(serializers.ModelSerializer):
+class AppointmentUpdateSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     surname = serializers.CharField(max_length=100)
     email = serializers.EmailField()
-
-    class Meta:
-        model = Appointment
-        fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status', 'name', 'surname', 'email')
-        read_only_fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status')
-        extra_kwargs = {
-            'name': {'write_only': True},
-            'surname': {'write_only': True},
-            'email': {'write_only': True}
-        }
+    appointment_status = serializers.CharField(max_length=255)
 
     def is_valid(self, raise_exception=True):
         data_person = self.initial_data
@@ -32,3 +23,15 @@ class AppointmentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'message': 'Podaj poprawny adres E-mail.'})
 
         return super().is_valid()
+
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status', 'name', 'surname', 'email')
+        read_only_fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status')
+        extra_kwargs = {
+            'name': {'write_only': True},
+            'surname': {'write_only': True},
+            'email': {'write_only': True}
+        }

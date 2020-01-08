@@ -5,7 +5,7 @@ from rest_framework import viewsets, views, status
 
 from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email
 from gabinetLaryngologii.visit.models import Appointment
-from gabinetLaryngologii.visit.serializers import AppointmentSerializer
+from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer
 from gabinetLaryngologii.visit.token_handler import token_generator, encrypt
 
 
@@ -15,14 +15,21 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'patch']
 
     def partial_update(self, request, *args, **kwargs):
-        # kwargs['partial'] = True
+        kwargs['partial'] = True
+        appointment = self.get_object()
+        if appointment != "open":
+            return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=200)
 
-        serializer = AppointmentSerializer(data=request.data, partial=True)
+        appointment.appointment_status = "Waiting for confirmation"
+        appointment.save()
+
+        serializer = AppointmentUpdateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         person_data = serializer.data
         token = token_generator(str(person_data["email"]))
         subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
 
-        send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
+        # send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
         self.update(request, *args, **kwargs)
         return Response({"message": "Został wysłany E-mail potwierdzający wizytę."}, status=200)
