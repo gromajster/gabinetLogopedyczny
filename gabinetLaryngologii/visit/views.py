@@ -15,14 +15,12 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'patch']
 
     def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
+        # kwargs['partial'] = True
 
-        serializer = AppointmentSerializer(data=request.data)
+        serializer = AppointmentSerializer(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-
         person_data = serializer.data
-
-        token = token_generator(person_data["email"])
+        token = token_generator(str(person_data["email"]))
         subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
 
         send_confirmation_email.delay(person_data["email"], subscription_confirmation_url)
