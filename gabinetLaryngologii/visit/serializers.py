@@ -9,6 +9,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status', 'name', 'surname', 'email')
+        read_only_fields = ('id', 'day', 'month', 'year', 'appointment_time', 'appointment_status')
         extra_kwargs = {
             'name': {'write_only': True},
             'surname': {'write_only': True},

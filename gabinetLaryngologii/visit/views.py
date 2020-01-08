@@ -14,14 +14,17 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     http_method_names = ['get', 'patch']
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+
         serializer = AppointmentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         person_data = serializer.data
 
         token = token_generator(person_data["email"])
         subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
 
         send_confirmation_email.delay(person_data["email"], subscription_confirmation_url)
-
+        self.update(request, *args, **kwargs)
         return Response({"message": "Został wysłany E-mail potwierdzający wizytę."}, status=200)
