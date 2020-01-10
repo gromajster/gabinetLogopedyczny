@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from gabinetLaryngologii.visit.models import Appointment
 from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer
 from gabinetLaryngologii.visit.token_handler import token_generator, encrypt
+from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
@@ -30,6 +31,6 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         token = token_generator(str(person_data["email"]))
         subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
 
-        # send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
+        send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
         self.update(request, *args, **kwargs)
         return Response({"message": "Został wysłany E-mail potwierdzający wizytę."}, status=200)
