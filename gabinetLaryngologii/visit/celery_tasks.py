@@ -20,7 +20,7 @@ def send_confirmation_email(email, subscription_confirmation_url):
     data["plain_text"] = strip_tags(data["html_text"])
 
     # send_mail(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER, [data['email']])
-    send_mail("subject", "plain_text", settings.EMAIL_HOST_USER, ['mkucko145@gmail.com'])
+    send_mail(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER, [data['email']])
 
     # email_message = EmailMessage(data["subject"], data["plain_text"], 'gabinet.laryngologiczny.gdynia@gmail.com',
     #                              [data['email']])
