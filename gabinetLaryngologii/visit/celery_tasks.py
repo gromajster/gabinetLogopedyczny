@@ -20,9 +20,11 @@ def send_confirmation_email(email, subscription_confirmation_url):
     data["plain_text"] = strip_tags(data["html_text"])
 
     # send_mail(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER, [data['email']])
-    email_message = EmailMessage(data["subject"], data["plain_text"], 'gabinet.laryngologiczny.gdynia@gmail.com',
-                                 [data['email']])
-    email_message.send(fail_silently=False)
+    send_mail("subject", "plain_text", settings.EMAIL_HOST_USER, ['mkucko145@gmail.com'])
+
+    # email_message = EmailMessage(data["subject"], data["plain_text"], 'gabinet.laryngologiczny.gdynia@gmail.com',
+    #                              [data['email']])
+    # email_message.send(fail_silently=False)
     # message = subscription_confirmation_url
     # send_mail('Wiadomość Gabinet Logopedyczny', message, settings.EMAIL_HOST_USER, [data['email']])
-    return None
+    return True
