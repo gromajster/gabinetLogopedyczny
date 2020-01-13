@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.forms import ModelForm
 
-from gabinetLaryngologii.visit.models import Appointment
-
+from gabinetLaryngologii.visit.models import Appointment, ConfirmationToken
 
 class AppointmentForm(ModelForm):
     class Meta:
@@ -22,3 +21,5 @@ class AppointmentAdmin(ModelAdmin):
 
 
 admin.site.register(Appointment, AppointmentAdmin)
+
+admin.site.register(ConfirmationToken)

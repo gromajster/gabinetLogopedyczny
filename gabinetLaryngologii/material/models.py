@@ -11,3 +11,6 @@ class Media(models.Model):
     def extension(self):
         name, extension = os.path.splitext(self.media_url.name)
         return extension
+
+    def __str__(self):
+        return self.media_name

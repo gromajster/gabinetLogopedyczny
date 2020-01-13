@@ -10,3 +10,6 @@ class Post(models.Model):
     picture_url = models.FileField(upload_to='blog_pictures/', blank=True, null=True)
     long_text = models.TextField(max_length=1000)
     published = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title

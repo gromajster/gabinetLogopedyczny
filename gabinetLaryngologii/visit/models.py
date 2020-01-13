@@ -24,6 +24,9 @@ class Appointment(models.Model):
     appointment_status = models.CharField(max_length=255, default="open")
     date = {}
 
+    def __str__(self):
+        return self.email
+
     def day(self):
         date = {"day": self.appointment_date.day}
         return date["day"]
@@ -49,3 +52,15 @@ class Appointment(models.Model):
     def year(self):
         date = {"year": self.appointment_date.year}
         return date["year"]
+
+
+class ConfirmationToken(models.Model):
+    appointment = models.OneToOneField(
+        Appointment,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    confirmation_link = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "Token użytkownika o E-mailu: " + self.appointment.email

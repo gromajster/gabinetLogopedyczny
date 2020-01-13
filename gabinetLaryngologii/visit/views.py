@@ -1,11 +1,13 @@
+from time import time
+from re import split
 
 from rest_framework.response import Response
 from rest_framework import viewsets
 
-
-from gabinetLaryngologii.visit.models import Appointment
-from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer
-from gabinetLaryngologii.visit.token_handler import token_generator, encrypt
+from gabinetLaryngologii.visit.models import Appointment, ConfirmationToken
+from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer, \
+    AppointmentFinalUpdateSerializer
+from gabinetLaryngologii.visit.token_handler import token_generator, encrypt, decrypt
 from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email
 
 
@@ -17,20 +19,59 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
-        appointment = self.get_object()
-        if appointment.appointment_status != "open":
-            return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=400)
 
-        appointment.appointment_status = "Waiting for confirmation"
-        appointment.save()
+        if "name" in request.data:
 
-        serializer = AppointmentUpdateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+            serializer = AppointmentUpdateSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-        person_data = serializer.data
-        token = token_generator(str(person_data["email"]))
-        subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token
+            appointment = self.get_object()
+            if appointment.appointment_status != "open":
+                return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=400)
 
-        send_confirmation_email.delay(str(person_data["email"]), subscription_confirmation_url)
-        self.update(request, *args, **kwargs)
-        return Response({"message": "Został wysłany E-mail potwierdzający wizytę."}, status=200)
+            appointment.appointment_status = "Waiting for confirmation"
+            appointment.save()
+
+            person_data = serializer.data
+            token = token_generator(person_data["email"])
+            subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token + "&id=" + str(
+                appointment.id)
+
+            confirmation_token = ConfirmationToken(appointment=appointment,
+                                                   confirmation_link=token)
+            confirmation_token.save()
+
+            # send_confirmation_email(person_data["email"], subscription_confirmation_url)
+            self.update(request, *args, **kwargs)
+            return Response(
+                {"message": "Został wysłany E-mail potwierdzający wizytę. Potwierdź wizytę w ciągu 12 godizn."},
+                status=200)
+        elif "token" in request.data:
+
+            serializer = AppointmentFinalUpdateSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            person_data = serializer.data
+            token = person_data["token"]
+
+            if ConfirmationToken.objects.filter(confirmation_link=token).count() == 0:
+                return Response({"message": "Błędny link potwierdzający."}, status=400)
+
+            decrypted_data = decrypt(token)
+            email, token_crated_time = split('SEPARATOR', decrypted_data)
+            current_time = time()
+            life_of_token = current_time - float(token_crated_time)
+            if life_of_token >= 43200:
+                return Response({"message": "Twój link potwierdzający wygasł."}, status=400)
+            appointment = self.get_object()
+
+            if appointment.appointment_status != "Waiting for confirmation":
+                return Response({"message": "Tą wizytę już potwierdzono."}, status=400)
+
+            appointment.appointment_status = "Reserved"
+            appointment.save()
+
+            self.update(request, *args, **kwargs)
+            return Response({"message": "Twoja wizyta została potwierdzona! Dziękujemy!"}, status=200)
+        else:
+            return Response({"message": "Błąd!"}, status=400)

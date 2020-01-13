@@ -5,6 +5,10 @@ from rest_framework import serializers
 from gabinetLaryngologii.visit.models import Appointment
 
 
+class AppointmentFinalUpdateSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length=255)
+
+
 class AppointmentUpdateSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     surname = serializers.CharField(max_length=100)
