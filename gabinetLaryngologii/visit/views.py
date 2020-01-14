@@ -1,6 +1,7 @@
 from time import time
 from re import split
 
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import viewsets
 
@@ -8,7 +9,7 @@ from gabinetLaryngologii.visit.models import Appointment, ConfirmationToken
 from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer, \
     AppointmentFinalUpdateSerializer
 from gabinetLaryngologii.visit.token_handler import token_generator, encrypt, decrypt
-from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email
+from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email, remove_old_appointments_from_db
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
@@ -17,6 +18,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     pagination_class = None
     http_method_names = ['get', 'patch']
 
+    @csrf_exempt
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
 

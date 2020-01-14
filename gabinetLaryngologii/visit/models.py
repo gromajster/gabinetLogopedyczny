@@ -53,6 +53,9 @@ class Appointment(models.Model):
         date = {"year": self.appointment_date.year}
         return date["year"]
 
+    class Meta:
+        unique_together = ('appointment_date', 'appointment_time',)
+
 
 class ConfirmationToken(models.Model):
     appointment = models.OneToOneField(
