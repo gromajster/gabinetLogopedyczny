@@ -15,7 +15,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
-    http_method_names = ['patch']
+    http_method_names = ['patch', 'get']
 
     @csrf_exempt
     def partial_update(self, request, *args, **kwargs):
