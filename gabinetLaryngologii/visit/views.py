@@ -28,7 +28,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
 
             appointment = self.get_object()
-            if appointment.appointment_status != "open":
+            if appointment.appointment_status != "Open":
                 return Response({"message": "Ta data wizyta została już zarezerwowana."}, status=400)
 
             appointment.appointment_status = "Waiting for confirmation"
