@@ -75,6 +75,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             appointment.appointment_status = "Reserved"
             appointment.save()
 
+            confirmation_token = ConfirmationToken.objects.get(confirmation_link=token)
+            confirmation_token.delete()
+
             self.update(request, *args, **kwargs)
             return Response({"message": "Twoja wizyta została potwierdzona! Dziękujemy!"}, status=200)
         else:
