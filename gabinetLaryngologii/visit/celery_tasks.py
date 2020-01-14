@@ -10,11 +10,11 @@ from gabinetLaryngologii.visit.models import Appointment
 
 
 @shared_task
-def send_confirmation_email(email, subscription_confirmation_url, time, date):
+def send_confirmation_email(email, subscription_confirmation_url, time, c_date):
     data = {"confirmation_url": subscription_confirmation_url,
             "subject": "Gabinet Logopedyczny potwierdzenie wizyty",
             "time": time,
-            "date": date,
+            "date": c_date,
             "email": email,
             "contact_link": "https://gabinetlogopedyczny.mglernest.now.sh/contact"}
     message = f"Dzień dobry! \n" \
