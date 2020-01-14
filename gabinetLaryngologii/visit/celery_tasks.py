@@ -37,5 +37,5 @@ def send_confirmation_email(email, subscription_confirmation_url, time, date):
                ignore_result=True
                )
 def remove_old_appointments_from_db():
-    current_date = date()
+    current_date = date.today()
     Appointment.objects.filter(appointment_date=current_date).delete()
