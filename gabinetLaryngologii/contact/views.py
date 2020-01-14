@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import views
 from rest_framework.response import Response
 from django.core.mail import send_mail
@@ -10,7 +11,7 @@ from .celery_tasks import send_email_task
 
 
 class ContactView(views.APIView):
-
+    @csrf_exempt
     def post(self, request):
         serializer = ContactSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
