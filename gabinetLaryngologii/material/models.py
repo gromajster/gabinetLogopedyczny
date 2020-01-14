@@ -1,6 +1,8 @@
 import os
 
+
 from django.db import models
+
 
 
 class Media(models.Model):
@@ -11,6 +13,13 @@ class Media(models.Model):
     def extension(self):
         name, extension = os.path.splitext(self.media_url.name)
         return extension
+
+    def delete(self, using=None, keep_parents=False):
+        # dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
+        # dbx.files_delete(str(self.media_url))
+
+        self.media_url.storage.delete(self.media_url.name)
+        super().delete(using, keep_parents)
 
     def __str__(self):
         return self.media_name

@@ -7,3 +7,5 @@ class MediaAdmin(admin.ModelAdmin):
     list_display = ('media_name', 'media_description', 'extension')
     search_fields = ('media_name',)
     ordering = ('id',)
+
+
