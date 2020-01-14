@@ -34,14 +34,16 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
             person_data = serializer.data
             token = token_generator(person_data["email"])
-            subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" + "?token=" + token + "&id=" + str(
-                appointment.id)
+            subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" \
+                                            + "?token=" + token + "&id=" + str(appointment.id)
 
             confirmation_token = ConfirmationToken(appointment=appointment,
                                                    confirmation_link=token)
             confirmation_token.save()
 
-            # send_confirmation_email(person_data["email"], subscription_confirmation_url)
+            send_confirmation_email.delay(person_data["email"], subscription_confirmation_url,
+                                          appointment.appointment_time,
+                                          appointment.appointment_date)
             self.update(request, *args, **kwargs)
             return Response(
                 {"message": "Został wysłany E-mail potwierdzający wizytę. Potwierdź wizytę w ciągu 12 godizn."},

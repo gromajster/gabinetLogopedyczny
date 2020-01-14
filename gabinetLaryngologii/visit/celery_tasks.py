@@ -1,27 +1,27 @@
 from celery import shared_task
 from django.core.mail import send_mail, EmailMessage
-from django.template.loader import get_template
-from django.utils.html import strip_tags
 
 from gabinetLaryngologii import settings
 
 
 @shared_task
-def send_confirmation_email(email, subscription_confirmation_url):
-    data = {"confirmation_url": subscription_confirmation_url, "subject": "Please confirm the subscription",
-            "email": email, "project_name": "Scientific Dev", "site_url": "https://www.scientificdev.net",
-            "contact_us_url": "https://www.scientificdev.net/contact/"}
-    template = get_template("visit_confirmation/confirmation_mail.html")
-    data["html_text"] = template.render(data)
-    data["plain_text"] = strip_tags(data["html_text"])
-
-    # send_mail(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER, [data['email']])
-    # send_mail(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER, [data['email']])
-
-    email_message = EmailMessage(data["subject"], data["plain_text"], settings.EMAIL_HOST_USER,
+def send_confirmation_email(email, subscription_confirmation_url, time, date):
+    data = {"confirmation_url": subscription_confirmation_url,
+            "subject": "Gabinet Logopedyczny potwierdzenie wizyty",
+            "time": time,
+            "date": date,
+            "email": email,
+            "contact_link": "https://gabinetlogopedyczny.mglernest.now.sh/contact"}
+    message = f"Dzień dobry! \n" \
+              f"Wizyta dnia {data.get('date')}, na godzinę {data.get('time')}, \n" \
+              f"jest prawie potwierdzona, wystarczy że klikniesz w poniższy link potwierdzający: \n" \
+              f"{data.get('confirmation_url')} \n" \
+              f"W przypadku dodatkowych pytań zapraszam do formularza kontaktowego znajdującego się tutaj: \n" \
+              f"{data.get('contact_link')}\n" \
+              f"Dziękuję i pozdrawiam! \n" \
+              f"Joanna Zacniewska"
+    email_message = EmailMessage(data["subject"], message, settings.EMAIL_HOST_USER,
                                  [data['email']])
-    print(email_message.message())
+
     email_message.send(fail_silently=False)
-    # message = subscription_confirmation_url
-    # send_mail('Wiadomość Gabinet Logopedyczny', message, settings.EMAIL_HOST_USER, [data['email']])
     return True
