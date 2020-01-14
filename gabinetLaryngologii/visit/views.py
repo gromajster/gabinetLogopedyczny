@@ -13,7 +13,7 @@ from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email, remo
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-    queryset = Appointment.objects.all()
+    queryset = Appointment.objects.filter(appointment_status="Open")
     serializer_class = AppointmentSerializer
     pagination_class = None
     http_method_names = ['get', 'patch']
