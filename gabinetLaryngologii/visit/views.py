@@ -36,7 +36,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
             person_data = serializer.data
             token = token_generator(person_data["email"])
-            subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/confirmation/" \
+            subscription_confirmation_url = "https://gabinetlogopedyczny.mglernest.now.sh/visit/confitmation/" \
                                             + "?token=" + token + "&id=" + str(appointment.id)
 
             confirmation_token = ConfirmationToken(appointment=appointment,
