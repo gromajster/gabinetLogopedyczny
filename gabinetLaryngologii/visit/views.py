@@ -8,15 +8,14 @@ from rest_framework import viewsets
 from gabinetLaryngologii.visit.models import Appointment, ConfirmationToken
 from gabinetLaryngologii.visit.serializers import AppointmentSerializer, AppointmentUpdateSerializer, \
     AppointmentFinalUpdateSerializer
-from gabinetLaryngologii.visit.token_handler import token_generator, encrypt, decrypt
-from gabinetLaryngologii.visit.celery_tasks import send_confirmation_email, remove_old_appointments_from_db
+from gabinetLaryngologii.visit.token_handler import token_generator, decrypt
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
-    http_method_names = ['get', 'patch']
+    http_method_names = ['patch']
 
     @csrf_exempt
     def partial_update(self, request, *args, **kwargs):
@@ -43,9 +42,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                                                    confirmation_link=token)
             confirmation_token.save()
 
-            send_confirmation_email.delay(person_data["email"], subscription_confirmation_url,
-                                          appointment.appointment_time,
-                                          appointment.appointment_date)
+            # send_confirmation_email.delay(person_data["email"], subscription_confirmation_url,
+            #                               appointment.appointment_time,
+            #                               appointment.appointment_date)
             self.update(request, *args, **kwargs)
             return Response(
                 {"message": "Został wysłany E-mail potwierdzający wizytę. Potwierdź wizytę w ciągu 12 godizn."},
