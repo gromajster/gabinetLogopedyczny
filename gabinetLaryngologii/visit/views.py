@@ -26,7 +26,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     @csrf_exempt
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
-
+        print(request.data)
         if "name" in request.data:
 
             serializer = AppointmentUpdateSerializer(data=request.data)
