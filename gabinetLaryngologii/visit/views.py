@@ -19,6 +19,11 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     pagination_class = None
     http_method_names = ['get', 'post']
 
+    def get_queryset(self):
+        if self.request.method == 'GET':
+            return Appointment.objects.filter(appointment_status="Open")
+        return super().get_queryset()
+
     @action(methods=['post'], detail=True)
     def reservation(self, request, pk):
         serializer = AppointmentUpdateSerializer(data=request.data)
@@ -76,6 +81,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         confirmation_token = ConfirmationToken.objects.get(confirmation_link=token)
         confirmation_token.delete()
         return Response({"message": "Twoja wizyta została potwierdzona! Dziękujemy!"}, status=200)
+
 
 # @csrf_exempt
 # def partial_update(self, request, *args, **kwargs):
@@ -141,7 +147,3 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 #     else:
 #         return Response({"message": "Błąd!"}, status=400)
 #
-# def get_queryset(self):
-#     if self.request.method == 'GET':
-#         return Appointment.objects.filter(appointment_status="Open")
-#     return super().get_queryset()
