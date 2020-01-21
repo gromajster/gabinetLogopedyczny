@@ -144,7 +144,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gabinet.laryngologiczny.gdynia@gmail.com'
 EMAIL_HOST_PASSWORD = '!@#$%qazWSX'
 
-CELERY_BROKER_URL = "redis://h:pcc7965a1e03ae6c70d54c1b441302d35486f6782925c92fea836765fe79eddac@ec2-3-210-107-30.compute-1.amazonaws.com:32579"
+CELERY_BROKER_URL = "redis://h:pcc7965a1e03ae6c70d54c1b441302d35486f6782925c92fea836765fe79eddac@ec2-34-205-79-72.compute-1.amazonaws.com:10149"
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 

@@ -25,6 +25,7 @@ class AppointmentAdmin(ModelAdmin):
     date_hierarchy = 'appointment_date'
     ordering = ('appointment_date',)
 
+
 admin.site.register(Appointment, AppointmentAdmin)
 
 admin.site.register(ConfirmationToken)

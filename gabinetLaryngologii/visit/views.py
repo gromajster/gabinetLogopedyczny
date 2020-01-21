@@ -16,19 +16,14 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
-    http_method_names = ['patch', 'get']
-
-    def get_queryset(self):
-        if self.request.method == 'GET':
-            return Appointment.objects.filter(appointment_status="Open")
-        return super().get_queryset()
+    http_method_names = ['get', 'patch']
 
     @csrf_exempt
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
 
-        if "name" in request.data:
-
+        if 'name' in request.data:
+            print(request.data)
             serializer = AppointmentUpdateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
@@ -49,13 +44,12 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             confirmation_token.save()
 
             send_confirmation_email.delay(person_data["email"], subscription_confirmation_url,
-                                          appointment.appointment_time,
-                                          appointment.appointment_date)
+                                          appointment.appointment_time, appointment.appointment_date)
             self.update(request, *args, **kwargs)
             return Response(
                 {"message": "Został wysłany E-mail potwierdzający wizytę. Potwierdź wizytę w ciągu 12 godizn."},
                 status=200)
-        elif "token" in request.data:
+        elif 'token' in request.data:
 
             serializer = AppointmentFinalUpdateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -87,3 +81,8 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             return Response({"message": "Twoja wizyta została potwierdzona! Dziękujemy!"}, status=200)
         else:
             return Response({"message": "Błąd!"}, status=400)
+
+    def get_queryset(self):
+        if self.request.method == 'GET':
+            return Appointment.objects.filter(appointment_status="Open")
+        return super().get_queryset()
