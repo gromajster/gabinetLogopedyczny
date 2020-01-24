@@ -1,5 +1,3 @@
-import os
-
 from django.db import models
 
 TIME_CHOICES = (
@@ -22,7 +20,7 @@ class Appointment(models.Model):
     appointment_date = models.DateField()
     appointment_time = models.CharField(choices=TIME_CHOICES, max_length=5)
     appointment_status = models.CharField(max_length=255, default="Open")
-    date = {}
+
 
     def __str__(self):
         return self.email

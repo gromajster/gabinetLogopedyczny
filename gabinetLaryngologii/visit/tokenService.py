@@ -1,8 +1,6 @@
 from fernet import Fernet
 import base64
-import logging
 from time import time
-import traceback
 from django.conf import settings
 
 

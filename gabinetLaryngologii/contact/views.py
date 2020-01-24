@@ -1,13 +1,10 @@
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import views
 from rest_framework.response import Response
-from django.core.mail import send_mail
-from rest_framework.views import exception_handler
 
-from gabinetLaryngologii import settings
 from .serializers import ContactSerializer
 
-from .celery_tasks import send_email_task
+from .celeryTasks import send_email_task
 
 
 class ContactView(views.APIView):

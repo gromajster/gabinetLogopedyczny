@@ -1,11 +1,7 @@
-from re import split
-
 from django.contrib import admin, messages
 from django.contrib.admin import ModelAdmin
 
-from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-from rest_framework.response import Response
 
 from gabinetLaryngologii.visit.models import Appointment, ConfirmationToken
 
